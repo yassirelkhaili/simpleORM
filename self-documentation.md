@@ -218,4 +218,82 @@ class Exemple {
 }
 ```
 
-###
+### __set
+
+```php
+class Exemple {
+    private $donnees = array();
+
+    public function __set($propriete, $valeur) {
+        $this->donnees[$propriete] = $valeur;
+    }
+}
+```
+
+### __isset
+
+```plaintext
+**The __isset** magic method is triggered when using the isset() function on an inaccessible property. It allows you to customize the behavior of isset().
+```
+
+```php
+class Exemple {
+    private $donnees = array();
+
+    public function __set($propriete, $valeur) {
+        $this->donnees[$propriete] = $valeur;
+    }
+}
+```
+
+### __unset
+
+```php
+class Exemple {
+    private $donnees = array();
+
+    public function __set($propriete, $valeur) {
+        $this->donnees[$propriete] = $valeur;
+    }
+}
+```
+
+### __toString
+
+```php
+class Example {
+    public function __toString() {
+        return "This is the string representation of the object.";
+    }
+}
+
+$myObject = new Example();
+echo $myObject; // Outputs: This is the string representation of the object.
+```
+
+### __call
+
+```php
+class Example {
+    public function __call($method, $arguments) {
+        echo "Calling method $method with arguments: " . implode(', ', $arguments);
+    }
+}
+
+$myObject = new Example();
+$myObject->exampleMethod(1, 2, 3);
+// Outputs: Calling method exampleMethod with arguments: 1, 2, 3
+```
+
+### __callStatic
+
+```php
+class Example {
+    public static function __callStatic($method, $arguments) {
+        echo "Calling static method $method with arguments: " . implode(', ', $arguments);
+    }
+}
+
+Example::exampleStaticMethod(4, 5, 6);
+// Outputs: Calling static method exampleStaticMethod with arguments: 4, 5, 6
+```
