@@ -36,6 +36,15 @@ switch ($command_interface) {
             exit("command argument not recognized");
         }
         break;
+    case "migrate":
+        switch ($command_argument) {
+            case "entity":
+                generateEntity::migrate($class_name);
+                break;
+            default:
+            exit("command argument not recognized");
+        }
+        break;
     default:
     exit("command interface not recognized");
 }
