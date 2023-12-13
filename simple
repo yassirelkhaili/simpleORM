@@ -1,0 +1,39 @@
+<?php
+
+require "./src/Utils/EntityGenerator.php";
+
+use generate\generateEntity;
+
+if ($argc > 4 || $argc < 3) {
+    exit("insufficiant number of arguments" . $argc);
+}
+
+$command_args = array_slice($argv, 1);
+$command = $command_args[0];
+$class_name = $command_args[1];
+$command_interface = explode(":", $command)[0];
+$command_argument = explode(":", $command)[1];
+
+function isFirstCharUppercase(string $str): bool {
+    return ctype_upper(mb_substr($str, 0, 1, 'UTF-8'));
+}
+
+if (!isFirstCharUppercase($class_name)) {
+    exit('Entity name: '. $class_name . ' must start with an uppercase');
+}
+
+switch ($command_interface) {
+    case "generate":
+        switch ($command_argument) {
+            case "entity":
+                generateEntity::generate($class_name);
+                break;
+            default:
+            exit("command argument not recognized");
+        }
+        break;
+    default:
+    exit("command interface not recognized");
+}
+
+
