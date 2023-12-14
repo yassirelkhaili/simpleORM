@@ -2,7 +2,10 @@
 
 namespace generate;
 
+require "../Database/connections/conn.php";
+
 use Entities\EntityMapper;
+use EntityManager\EntityManager;
 
 interface generate {
     public static function generate(string $name): void;
@@ -76,9 +79,8 @@ class generateEntity Implements generate {
             require_once $target_file_path;
             if (class_exists($class_name)) {
                 $mapper = new EntityMapper(new $class_name);
-                $mapped_entity = $mapper->map();
-                print_r($mapped_entity);
-                exit();
+                $manager = new EntityManager($conn);
+                $manager->createTable($mapper->map(), $class_name);
             } else {
             exit("Could't find target class");
             }

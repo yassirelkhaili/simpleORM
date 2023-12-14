@@ -12,8 +12,8 @@ class EntityManager {
     public function __construct(PDO $db) {
         $this->db = $db;
     }
-    public function createTable(array $data): void {
-        $query = QueryGenerator::generateTableQuery($data);
+    public function createTable(array $data,string $entity_name): void {
+        $query = QueryGenerator::generateTableQuery($data, $entity_name);
         $stmt = $this->db->prepare($query);
         if ($stmt === false) {
             throw new \Exception("Error preparing statement");
