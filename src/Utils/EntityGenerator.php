@@ -78,6 +78,7 @@ class generateEntity Implements generate {
                 $mapper = new EntityMapper(new $class_name);
                 $mapped_entity = $mapper->map();
                 print_r($mapped_entity);
+                exit();
             } else {
             exit("Could't find target class");
             }
