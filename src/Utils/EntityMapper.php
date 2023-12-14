@@ -37,8 +37,6 @@ class EntityMapper {
                     'types' => $property_type,
                 ];
             }
-            print_r($property_mapping);
-            exit();
             return $property_mapping;
         } else {
             echo("Warning: getPropertyConfig method doesn't exist in " . $entity_name . "\n" ."default field values will be generated instead");
@@ -51,8 +49,6 @@ class EntityMapper {
             ];
         }
         }
-        print_r($property_mapping);
-            exit();
         return $property_mapping;
     }
     private function getPropertyType(ReflectionProperty $property): ?string {
