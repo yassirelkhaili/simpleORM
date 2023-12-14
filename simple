@@ -67,12 +67,7 @@ switch ($command_interface) {
         switch ($command_argument) {
             case "entity":
                 $manager = new EntityManager($conn);
-                try {
-                    $manager->down($class_name);
-                    echo "Table: $class_name was dropped sussesfully";
-                } catch (Exception $exception) {
-                    echo "An Error has occured: " . $exception->getMessage();
-                }
+                $manager->down($class_name);
                 break;
             default:
             exit("command argument not recognized");

@@ -4,7 +4,7 @@ require_once dirname(__DIR__) . "/Utils/EntityMapper.php";
 
 use Entities\Entity;
 
-class Users extends Entity {
+class Stairs extends Entity {
     /**
      * @var int
      *
@@ -40,7 +40,6 @@ class Users extends Entity {
             'id' => ['type' => 'int', 'primary' => true, 'autoIncrement' => true, 'notNull' => true],
             'name' => ['type' => 'varchar', 'length' => 255, 'notNull' => true],
             'email' => ['type' => 'varchar', 'length' => 255, 'notNull' => true, 'unique' => true],
-            'lastname' => ['type' => 'varchar', 'length' => 23, 'notNull' => false, 'unique' => true],
         ];
     }
 }
