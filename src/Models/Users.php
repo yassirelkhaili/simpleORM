@@ -1,10 +1,10 @@
 <?php
 
-require_once "../Utils/EntityMapper.php";
+require_once dirname(__DIR__) . "/Utils/EntityMapper.php";
 
 use Entities\Entity;
 
-class School extends Entity {
+class Users extends Entity {
     /**
      * @var int
      *
@@ -27,7 +27,7 @@ class School extends Entity {
      * @Config(type="varchar", length=255, notNull=true, unique=true)
      * The email address of the user, which must be unique.
      */
-    private string $location;
+    private string $email;
 
     /**
      * Get the configuration for each property.

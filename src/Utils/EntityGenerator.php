@@ -2,11 +2,18 @@
 
 namespace generate;
 
+
+require_once dirname(__DIR__) . "/SimpleORM/EntityManager.php";
+
 use Entities\EntityMapper;
+use EntityManager\EntityManager;
+use PDO;
 
 interface generate {
     public static function generate(string $name): void;
-    public static function migrate(string $name): void;
+    public static function migrate(string $name, PDO $conn): void;
+
+    public static function destroy(string $name): void;
 }
 class generateEntity Implements generate {
     public static function generate(string $class_name): void {
@@ -16,10 +23,15 @@ class generateEntity Implements generate {
         if (!is_dir($destination_directory)) {
             mkdir($destination_directory, 0777, true);
         }
+
+        if (file_exists($full_path)) {
+            echo "Entity $class_name already exists";
+            exit();
+        }
         $class_content = <<<PHP
     <?php
 
-    require_once "../Utils/EntityMapper.php";
+    require_once dirname(__DIR__) . "/Utils/EntityMapper.php";
 
     use Entities\Entity;
 
@@ -67,7 +79,7 @@ class generateEntity Implements generate {
         echo "The $class_name Entity has been generated at: $full_path\n";
     }
 
-    public static function migrate(string $class_name): void {
+    public static function migrate(string $class_name, PDO $conn): void {
         $file_name = $class_name . ".php";
         $target_directory = dirname(__DIR__) . "/models";
         $target_file_path = $target_directory . '/' . $file_name;
@@ -76,13 +88,28 @@ class generateEntity Implements generate {
             require_once $target_file_path;
             if (class_exists($class_name)) {
                 $mapper = new EntityMapper(new $class_name);
-                $mapped_entity = $mapper->map();
-                print_r($mapped_entity);
+                $manager = new EntityManager($conn);
+                $manager->up($mapper->map());
             } else {
             exit("Could't find target class");
             }
         } else {
             exit("Could't find target class");
+        }
+    }
+
+    public static function destroy($class_name): void {
+        $file_name = $class_name . ".php";
+        $destination_directory = dirname(__DIR__) . "\Models";
+        $full_path = $destination_directory . '/' . $file_name;
+        if (file_exists($full_path)) {
+            if (unlink($full_path)) {
+                echo "Entity deleted successfully.";
+            } else {
+                echo "Unable to delete the Entity: $class_name.";
+            }
+        } else {
+            exit("Entity: $class_name does not exist");
         }
     }
 }

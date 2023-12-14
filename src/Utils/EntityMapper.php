@@ -2,11 +2,13 @@
 
 namespace Entities;
 
-use ReflectionClass, ReflectionProperty;
+use ReflectionClass, ReflectionProperty, queries\QueryGenerator;
 
-class Entity {
-
-}
+abstract class Entity {
+    public static function getPropertyConfig(): array {
+        return [];
+    }
+ }
 
 class EntityMapper {
     private Entity $entity;
@@ -16,20 +18,34 @@ class EntityMapper {
     public function map(): array {
         $entity_name = get_class($this->entity);
         $reflection_class = new ReflectionClass($entity_name);
-        $entity_properties = $reflection_class->getProperties(ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PRIVATE | ReflectionProperty::IS_PROTECTED);
-        $property_mapping = [];
-        foreach ($entity_properties as $property) {
-            $property_name = $property->getName();
-            $property_type = $this->getPropertyType($property);
-            $property_mapping[$property_name] = [
-                'type' => $property_type,
-            ];
-        }
+        $property_mapping = $this->typeMapper($reflection_class);
         $entity_mapping = [
             "entityName" => $entity_name,
             "entityProperties" => $property_mapping,
         ];
        return $entity_mapping;
+    }
+
+    public function typeMapper (ReflectionClass $reflection_class): array {
+        $property_mapping = array();
+        $entity_name = get_class($this->entity);
+        $method_name = "getPropertyConfig";
+        if ($reflection_class->getMethod($method_name)->class == $entity_name) {
+            $type_array = $this->entity->getPropertyConfig();
+            foreach($type_array as $property_name => $property_type) {
+                $property_mapping[$property_name] = $property_type;
+            }
+            return $property_mapping;
+        } else {
+            echo("Warning: getPropertyConfig method doesn't exist in " . $entity_name . "\n" ."default field values will be generated instead");
+            $entity_properties = $reflection_class->getProperties(ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PRIVATE | ReflectionProperty::IS_PROTECTED);
+        foreach ($entity_properties as $index => $property) {
+            $property_name = $property->getName();
+            $property_type = $this->getPropertyType($property);
+            $property_mapping[$property_name] = $property_type;
+        }
+        }
+        return $property_mapping;
     }
     private function getPropertyType(ReflectionProperty $property): ?string {
         $type = null;
