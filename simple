@@ -27,6 +27,15 @@ if (!isFirstCharUppercase($class_name)) {
 }
 
 switch ($command_interface) {
+    case "destroy":
+        switch ($command_argument) {
+            case "entity":
+                generateEntity::destroy($class_name);
+                break;
+            default:
+            exit("command argument not recognized");
+        }
+        break;
     case "generate":
         switch ($command_argument) {
             case "entity":

@@ -86,4 +86,19 @@ class generateEntity Implements generate {
             exit("Could't find target class");
         }
     }
+
+    public static function destroy($class_name): void {
+        $file_name = $class_name . ".php";
+        $destination_directory = dirname(__DIR__) . "\Models";
+        $full_path = $destination_directory . '/' . $file_name;
+        if (file_exists($full_path)) {
+            if (unlink($full_path)) {
+                echo "Entity deleted successfully.";
+            } else {
+                echo "Unable to delete the Entity: $class_name.";
+            }
+        } else {
+            exit("Entity: $class_name does not exist");
+        }
+    }
 }

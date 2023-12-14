@@ -1,35 +1,45 @@
 <?php
 
-require_once dirname(__DIR__) . "/Utils/EntityMapper.php";
+require_once "../Utils/EntityMapper.php";
 
 use Entities\Entity;
 
-/**
- * User-Defined Entities:
- * ----------------------
- * In this section, you can define your custom entities. Entities are classes
- * that may represent various data structures or business objects.
- *
- * Example:
- * class User {
- *    private $id;
- *    private $name;
- *    private $email;
- * }
- *
- * Feel free to add, modify, or remove entities as needed for your application.
- */
-
 class User extends Entity {
-private int $id;
-private string $name;
-private string $email;
+    /**
+     * @var int
+     *
+     * @Config(type="int", primary=true, autoIncrement=true, notNull=true)
+     * The unique identifier for the user.
+     */
+    private int $id;
 
-public static function getPropertyConfig(): array {
-    return [
-        'id' => ['type' => 'int', 'primary' => true, 'autoIncrement' => true, 'notNull' => true],
-        'name' => ['type' => 'varchar', 'length' => 255, 'notNull' => true],
-        'email' => ['type' => 'varchar', 'length' => 255, 'notNull' => true, 'unique' => true],
-    ];
-}
+    /**
+     * @var string
+     *
+     * @Config(type="varchar", length=255, notNull=true)
+     * The name of the user.
+     */
+    private string $name;
+
+    /**
+     * @var string
+     *
+     * @Config(type="varchar", length=255, notNull=true, unique=true)
+     * The email address of the user, which must be unique.
+     */
+    private string $email;
+
+    /**
+     * Get the configuration for each property.
+     *
+     * @return array
+     * An associative array where keys are property names, and values are property configurations.
+     */
+    public static function getPropertyConfig(): array {
+        return [
+            'id' => ['type' => 'int', 'primary' => true, 'autoIncrement' => true, 'notNull' => true],
+            'name' => ['type' => 'varchar', 'length' => 255, 'notNull' => true],
+            'email' => ['type' => 'varchar', 'length' => 255, 'notNull' => true, 'unique' => true],
+        ];
+    }
 }
