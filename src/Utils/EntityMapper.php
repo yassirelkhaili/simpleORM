@@ -30,13 +30,15 @@ class EntityMapper {
         $property_mapping = array();
         $entity_name = get_class($this->entity);
         $method_name = "getPropertyConfig";
-        if (!class_exists($entity_name) && method_exists($entity_name, $method_name)) {
+        if ($reflection_class->getMethod($method_name)->class == $entity_name) {
             $type_array = $this->entity->getPropertyConfig();
             foreach($type_array as $property_name => $property_type) {
                 $property_mapping[$property_name] = [
                     'types' => $property_type,
                 ];
             }
+            print_r($property_mapping);
+            exit();
             return $property_mapping;
         } else {
             echo("Warning: getPropertyConfig method doesn't exist in " . $entity_name . "\n" ."default field values will be generated instead");
@@ -49,6 +51,8 @@ class EntityMapper {
             ];
         }
         }
+        print_r($property_mapping);
+            exit();
         return $property_mapping;
     }
     private function getPropertyType(ReflectionProperty $property): ?string {

@@ -2,7 +2,8 @@
 
 namespace generate;
 
-require "../Database/connections/conn.php";
+
+require_once dirname(__DIR__) . "/SimpleORM/EntityManager.php";
 
 use Entities\EntityMapper;
 use EntityManager\EntityManager;
@@ -78,6 +79,8 @@ class generateEntity Implements generate {
         if (file_exists($target_file_path)) {
             require_once $target_file_path;
             if (class_exists($class_name)) {
+                define("CONN_PATH_NAME", dirname(__DIR__) ."/Database/connections/conn.php");
+                require CONN_PATH_NAME;
                 $mapper = new EntityMapper(new $class_name);
                 $manager = new EntityManager($conn);
                 $manager->createTable($mapper->map(), $class_name);

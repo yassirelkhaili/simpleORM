@@ -1,6 +1,8 @@
 <?php
 
-require "../../../loadenv.php";
+define("PATH_NAME", dirname(__DIR__, 3) . "/loadenv.php");
+
+require PATH_NAME;
 
 $DB_DRIVER = $_ENV["DRIVER"];
 $DB_HOST = $_ENV["DB_HOST"]; 
