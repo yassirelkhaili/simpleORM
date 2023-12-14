@@ -33,9 +33,7 @@ class EntityMapper {
         if ($reflection_class->getMethod($method_name)->class == $entity_name) {
             $type_array = $this->entity->getPropertyConfig();
             foreach($type_array as $property_name => $property_type) {
-                $property_mapping[$property_name] = [
-                    'types' => $property_type,
-                ];
+                $property_mapping[$property_name] = $property_type;
             }
             return $property_mapping;
         } else {
@@ -44,9 +42,7 @@ class EntityMapper {
         foreach ($entity_properties as $index => $property) {
             $property_name = $property->getName();
             $property_type = $this->getPropertyType($property);
-            $property_mapping[$property_name] = [
-                'types' => $property_type,
-            ];
+            $property_mapping[$property_name] = $property_type;
         }
         }
         return $property_mapping;

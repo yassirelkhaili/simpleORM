@@ -3,16 +3,25 @@
 require "./src/Utils/EntityGenerator.php";
 
 use generate\generateEntity;
-
-if ($argc > 4 || $argc < 3) {
-    exit("insufficiant number of arguments" . $argc);
-}
+use EntityManager\EntityManager;
 
 $command_args = array_slice($argv, 1);
-$command = $command_args[0];
+$command_array = explode(":", $command_args[0]);
+$command_interface = $command_array[0];
+
+if ($command_array[0] === "help") {
+    $available_interfaces = ["generate", "migrate", "destroy", "rollback"];
+    $available_arguments = ["entity"];
+    echo "\nAvailable interfaces: " . implode(', ', $available_interfaces) . "\n";
+    echo "Available arguments: " . implode(', ', $available_arguments) . "\n";
+    echo "Example command: " . "php simple generate:entity <entity> With entity being the entity name";
+    exit();
+} else if ($argc > 4 || $argc < 3) {
+    exit("insufficiant number of arguments: " . $argc);
+}
+
 $class_name = $command_args[1];
-$command_interface = explode(":", $command)[0];
-$command_argument = explode(":", $command)[1];
+$command_argument = $command_array[1];
 
 if ($class_name == "Class") {
     exit("Entity name 'Class' is not allowed");
@@ -48,7 +57,22 @@ switch ($command_interface) {
     case "migrate":
         switch ($command_argument) {
             case "entity":
-                generateEntity::migrate($class_name);
+                generateEntity::migrate($class_name, $conn);
+                break;
+            default:
+            exit("command argument not recognized");
+        }
+        break;
+    case "rollback":
+        switch ($command_argument) {
+            case "entity":
+                $manager = new EntityManager($conn);
+                try {
+                    $manager->down($class_name);
+                    echo "Table: $class_name was dropped sussesfully";
+                } catch (Exception $exception) {
+                    echo "An Error has occured: " . $exception->getMessage();
+                }
                 break;
             default:
             exit("command argument not recognized");

@@ -3,41 +3,42 @@
 namespace queries;
 
 class QueryGenerator {
-    public static function generateTableQuery(array $columns, string $entity_name): string {
-            $query = "CREATE TABLE IF NOT EXISTS $entity_name (";
-
-            foreach ($columns as $columnName => $columnProperties) {
-                $type = $columnProperties['type'];
+    public static function generateTableQuery(array $columns): string {
+        $query = "CREATE TABLE IF NOT EXISTS {$columns['entityName']} (";
+        $columnNames = array_keys($columns["entityProperties"]);
+        $index = 0;
+        foreach ($columns["entityProperties"] as $columnProperty) {
+                $columnName = $columnNames[$index];
+                $type = $columnProperty['type'];
                 $query .= "$columnName $type";
         
-                if (isset($columnProperties['length'])) {
-                    $length = $columnProperties['length'];
+                if (isset($columnProperty['length'])) {
+                    $length = $columnProperty['length'];
                     $query .= "($length)";
                 }
         
-                if (isset($columnProperties['notNull']) && $columnProperties['notNull']) {
+                if (isset($columnProperty['notNull']) && $columnProperty['notNull']) {
                     $query .= " NOT NULL";
                 }
         
-                if (isset($columnProperties['autoIncrement']) && $columnProperties['autoIncrement']) {
+                if (isset($columnProperty['autoIncrement']) && $columnProperty['autoIncrement']) {
                     $query .= " AUTO_INCREMENT";
                 }
         
-                if (isset($columnProperties['primary']) && $columnProperties['primary']) {
+                if (isset($columnProperty['primary']) && $columnProperty['primary']) {
                     $query .= " PRIMARY KEY";
                 }
         
-                if (isset($columnProperties['unique']) && $columnProperties['unique']) {
+                if (isset($columnProperty['unique']) && $columnProperty['unique']) {
                     $query .= " UNIQUE";
                 }
         
                 $query .= ",";
+                $index++;
             }
-
-            $query = rtrim($query, ',');
         
-            $query .= ");";
-
-            return $query;
-        }
+        $query = rtrim($query, ',');
+        $query .= ");";
+        return $query;
     }
+}

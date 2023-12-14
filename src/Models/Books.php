@@ -1,10 +1,10 @@
 <?php
 
-require_once "../Utils/EntityMapper.php";
+require_once dirname(__DIR__) . "/Utils/EntityMapper.php";
 
 use Entities\Entity;
 
-class Tables extends Entity {
+class Books extends Entity {
     /**
      * @var int
      *
@@ -35,11 +35,11 @@ class Tables extends Entity {
      * @return array
      * An associative array where keys are property names, and values are property configurations.
      */
-    // public static function getPropertyConfig(): array {
-    //     return [
-    //         'id' => ['type' => 'int', 'primary' => true, 'autoIncrement' => true, 'notNull' => true],
-    //         'name' => ['type' => 'varchar', 'length' => 255, 'notNull' => true],
-    //         'email' => ['type' => 'varchar', 'length' => 255, 'notNull' => true, 'unique' => true],
-    //     ];
-    // }
+    public static function getPropertyConfig(): array {
+        return [
+            'id' => ['type' => 'int', 'primary' => true, 'autoIncrement' => true, 'notNull' => true],
+            'name' => ['type' => 'varchar', 'length' => 255, 'notNull' => true],
+            'email' => ['type' => 'varchar', 'length' => 255, 'notNull' => true, 'unique' => true],
+        ];
+    }
 }
