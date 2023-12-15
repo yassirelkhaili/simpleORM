@@ -47,8 +47,8 @@ class QueryGenerator {
     $columnNames = array_keys($data);
     $query .= implode(", ", $columnNames);
     $query .= ") VALUES (";
-    foreach ($data as $value) {
-        $query .= ":" . $value . ", ";
+    foreach ($columnNames as $columnName) {
+        $query .= ":" . $columnName . ", ";
     }
     $query = rtrim($query, ', ');
     $query .= ");";
