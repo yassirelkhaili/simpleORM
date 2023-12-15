@@ -9,7 +9,7 @@ use PDO, queries\QueryGenerator, Exception;
 class EntityManager {
     private PDO $db;
     private string $entity_name;
-    private array $columns = [];
+    private array $columns = array();
 
     public function __construct(PDO $db, string $entity_name) {
         $this->db = $db;
@@ -65,16 +65,9 @@ class EntityManager {
         try {
             $query = QueryGenerator::insertRecord($this->columns, $this->entity_name);
             $stmt = $this->db->prepare($query);
-            $index = 0;
-            foreach ($this->columns as $name => $value) {
-                $value_type = gettype($value);
-               if ($value_type === "string") {
-                $stmt->bindParam(":". $value, $value, PDO::PARAM_STR);
-               }
-               if ($value_type === "int") {
-                $stmt->bindParam(":". $value, $value, PDO::PARAM_INT);
-               }
-               $index++;
+            foreach ($this->columns as $value) {
+                $paramType = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
+                $stmt->bindValue(":" . $value, $value, $paramType);
             }
             if (!$stmt) {
                 throw new Exception("Error preparing statement");
@@ -86,6 +79,7 @@ class EntityManager {
         } catch (Exception $exception) {
             echo "An Error has occured: " . $exception->getMessage();
         }
+        $this->flush();
         return $this;
     }
     //fetch methods
@@ -98,5 +92,11 @@ class EntityManager {
     public function flush (): EntityManager {
         $this->columns = [];
         return $this;
-    } 
+    }
+    //for debugging perposes
+    public function list (): void {
+        foreach ($this->columns as $column) {
+            echo $column;
+        }
+    }
 }
