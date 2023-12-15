@@ -73,10 +73,9 @@ class EntityManager
         try {
             $query = QueryGenerator::insertRecord($this->columns, $this->entity_name);
             $stmt = $this->db->prepare($query);
-            foreach ($this->columns as $value) {
-                echo $value;
+            foreach ($this->columns as $key => $value) {
                 $paramType = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
-                $stmt->bindValue(":" . $value, $value, $paramType);
+                $stmt->bindValue(":" . $key, $value, $paramType);
             }
             if (!$stmt) {
                 throw new Exception("Error preparing statement");

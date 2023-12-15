@@ -9,7 +9,7 @@ $entity = new EntityManager($conn, "Users");
 // individual insert
 // $entity->email = "type";
 // $entity->name = "name421";
-// $entity->lastname = "last_name2";
+// $entity->lastname = "last_n ame2";
 
 // $entity->save();
 
@@ -20,13 +20,13 @@ $entity = new EntityManager($conn, "Users");
 //     ["columnName"=> "exampleValue1","columnName2"=> "exampleValue2"],
 // ]);
 
-$entity->saveMany([
-    ["name"=> "nameqwd","email"=> "email@gmail.com", "lastname" => "lastname"],
-    ["name"=> "nameqwd2","email"=> "email2@gmail.com", "lastname" => "lastname"],
-    ["name"=> "nameqwd3","email"=> "email3@gmail.com", "lastname" => "lastname"],
-]);
+// $entity->saveMany([
+//     ["name"=> "nam eqwd","email"=> "email@gmail.com", "lastname" => "lastname"],
+//     ["name"=> "nameqwd2","email"=> "email2@gmail.com", "lastname" => "lastname"],
+//     ["name"=> "nameqwd3","email"=> "email3@gmail.com", "lastname" => "lastname"],
+// ]);
 
-$entity->flush();
+// $entity->flush();
 
 // $array = [
 //         ["name"=> "nameqwd","email"=> "email@gmail.com", "lastname" => "lastname"],
