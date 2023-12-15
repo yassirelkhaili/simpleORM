@@ -41,4 +41,17 @@ class QueryGenerator {
         $query .= ");";
         return $query;
     }
+
+    public static function insertRecord (array $data, string $entity_name): string {
+        $query = "INSERT INTO $entity_name (";
+    $columnNames = array_keys($data);
+    $query .= implode(", ", $columnNames);
+    $query .= ") VALUES (";
+    foreach ($data as $value) {
+        $query .= ":" . $value . ", ";
+    }
+    $query = rtrim($query, ', ');
+    $query .= ");";
+    return $query;
+}
 }

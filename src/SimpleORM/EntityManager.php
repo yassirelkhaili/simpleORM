@@ -7,10 +7,13 @@ require __DIR__ . "/QueryGenerator.php";
 
 use PDO, queries\QueryGenerator, Exception;
 class EntityManager {
-    private $db;
+    private PDO $db;
+    private string $entity_name;
+    private array $columns = [];
 
-    public function __construct(PDO $db) {
+    public function __construct(PDO $db, string $entity_name) {
         $this->db = $db;
+        $this->entity_name = $entity_name;
     }
 
     //migrate entitity
@@ -31,9 +34,9 @@ class EntityManager {
     }
 
     //rollback entity
-    public function down(string $entity_name): void {
+    public function down(): void {
     try {
-        $query = "DROP TABLE $entity_name";
+        $query = "DROP TABLE $this->entity_name";
         $stmt = $this->db->prepare($query);
         if (!$stmt) {
             throw new Exception("Error preparing statement");
@@ -41,17 +44,59 @@ class EntityManager {
         if (!$stmt->execute()) {
             throw new Exception("Error creating the table");
         }
-        exit("Table: $entity_name was dropped sussesfully");
+        exit("Table: $this->entity_name was dropped sussesfully");
     } catch (Exception $exception) {
         echo "An Error has occured: " . $exception->getMessage();
     }
     }
 
-    //create methods
+    //setter and getter for dynamic column calling
 
+    public function __set(string $name, $value): void {
+        $this->columns[$name] = $value;
+    }
+
+    public function __get(string $name) {
+        return $this->columns[$name] ?? null;
+    }
+
+    //create methods
+    public function save (): EntityManager {
+        try {
+            $query = QueryGenerator::insertRecord($this->columns, $this->entity_name);
+            $stmt = $this->db->prepare($query);
+            $index = 0;
+            foreach ($this->columns as $name => $value) {
+                $value_type = gettype($value);
+               if ($value_type === "string") {
+                $stmt->bindParam(":". $value, $value, PDO::PARAM_STR);
+               }
+               if ($value_type === "int") {
+                $stmt->bindParam(":". $value, $value, PDO::PARAM_INT);
+               }
+               $index++;
+            }
+            if (!$stmt) {
+                throw new Exception("Error preparing statement");
+            }
+            if (!$stmt->execute()) {
+                throw new Exception("Error creating record");
+            }
+            exit("Record has been saved");
+        } catch (Exception $exception) {
+            echo "An Error has occured: " . $exception->getMessage();
+        }
+        return $this;
+    }
     //fetch methods
 
     //update methods
 
     //delete methods
+
+    //empty flush method
+    public function flush (): EntityManager {
+        $this->columns = [];
+        return $this;
+    } 
 }

@@ -66,8 +66,8 @@ switch ($command_interface) {
     case "rollback":
         switch ($command_argument) {
             case "entity":
-                $manager = new EntityManager($conn);
-                $manager->down($class_name);
+                $manager = new EntityManager($conn, $class_name);
+                $manager->down();
                 break;
             default:
             exit("command argument not recognized");
