@@ -74,6 +74,11 @@ public function generateDeleteQuery (): string {
     return $this->chainedQuery;
 }
 
+public function generateUpdateQuery (string $column, $value): string {
+    $this->chainedQuery .= "UPDATE {$this->entity_name} SET $column = '$value'";
+    return $this->chainedQuery;
+}
+
 public function stashWhereCondition (string $column, $value): void {
     $this->whereConditions[] = compact('column', 'value');
 }

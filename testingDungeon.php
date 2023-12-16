@@ -34,3 +34,10 @@ $entity = new EntityManager($conn, "Users");
 // $entity->fetchAll()->where("name", "exampleName")-where("email", "exampleEmail")->get(number);
 // $entity->delete()->confirm();
 // $entity->delete()->where("id", 2)->confirm();
+
+//update one record
+
+// $entity->update("email", "random name")->where("id", 51)->confirm();
+
+//update multiple records
+

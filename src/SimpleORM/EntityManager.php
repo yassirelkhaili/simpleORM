@@ -161,7 +161,11 @@ class EntityManager
     }
 
     //update methods
-
+    public function update(string $column, $value) {
+        $this->query_generator = new QueryGenerator($this->entity_name);
+        $this->query_generator->generateUpdateQuery($column, $value);
+        return $this;
+    }
     //delete methods
 
     public function delete(): self {
@@ -187,7 +191,7 @@ class EntityManager
             if (!$stmt->execute()) {
                 throw new Exception("Error creating record");
             } 
-            echo "Records deleted successfuly \n";
+            echo "Records updated successfuly \n";
             $this->query_generator->flushChainedQuery();
         } catch (Exception $exception) {
             echo "An Error has occurred: " . $exception->getMessage();
