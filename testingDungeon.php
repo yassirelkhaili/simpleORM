@@ -28,4 +28,4 @@ $entity = new EntityManager($conn, "Users");
 
 // $entity->flush();
 
-print_r($entity->fetchAll()->where("email", "type")->get());
+print_r($entity->fetchAll()->get(2));

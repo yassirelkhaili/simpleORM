@@ -120,7 +120,6 @@ class EntityManager
     }
 
     //fetch methods
-
     public function fetchAll(): self
     {
         $this->query_generator = new QueryGenerator($this->entity_name);
@@ -134,9 +133,10 @@ class EntityManager
         return $this;
     }
 
-    public function get()
+    public function get($limit_count = 0)
     {
-        $query = $this->query_generator->generateFinalWhereQuery();
+        $query = $this->query_generator->generateFinalWhereQuery($limit_count);
+        echo $query;
         $conditions = $this->query_generator->exportWhereConditions();
         try {
             $stmt = $this->db->prepare($query);
@@ -151,9 +151,8 @@ class EntityManager
             }
             if (!$stmt->execute()) {
                 throw new Exception("Error creating record");
-            }
-        
-            echo "Records have been fetched successfully \n";
+            } 
+            echo "Records fetched successfully \n";
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         } catch (Exception $exception) {
@@ -165,13 +164,14 @@ class EntityManager
 
     //delete methods
 
-    //empty entityData flush method
+    //empty instance inner data method
     public function flush(): EntityManager
     {
         $this->columns = [];
         return $this;
     }
     //for debugging perposes
+    //list all instance inner data
     public function list(): void
     {
         foreach ($this->columns as $column) {

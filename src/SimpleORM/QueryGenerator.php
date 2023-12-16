@@ -73,7 +73,7 @@ public function stashWhereCondition (string $column, $value): void {
     $this->whereConditions[] = compact('column', 'value');
 }
 
-public function generateFinalWhereQuery (): string {
+public function generateFinalWhereQuery (int $limit_count): string {
     if (!empty($this->whereConditions)) {
         $conditions = [];
         foreach ($this->whereConditions as $condition) {
@@ -83,13 +83,13 @@ public function generateFinalWhereQuery (): string {
         $this->chainedQuery .= " WHERE " . implode(' AND ', $conditions);
     }
 
-    // (e.g., ORDER BY, LIMIT) to be handled here.
+    // (ORDER BY, LIMIT) are to be handled here
+    if ($limit_count > 0) $this->chainedQuery .= " LIMIT $limit_count";
 
     return $this->chainedQuery . ";";
 }
 
 // utility method to fetch Conditions to be used in the prepare statement
-
 public function exportWhereConditions() {
     return $this->conditions;
 }
