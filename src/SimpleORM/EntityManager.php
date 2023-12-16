@@ -69,7 +69,7 @@ class EntityManager
     }
 
     //create methods
-    public function save(): EntityManager
+    public function save(): self
     {
         try {
             $query = QueryGenerator::insertRecord($this->columns, $this->entity_name);
@@ -91,7 +91,7 @@ class EntityManager
         $this->flush();
         return $this;
     }
-    public function saveMany(array $columns): EntityManager
+    public function saveMany(array $columns): self
     {
         foreach ($columns as $item) {
             try {
