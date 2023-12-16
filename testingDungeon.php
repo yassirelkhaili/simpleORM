@@ -28,4 +28,9 @@ $entity = new EntityManager($conn, "Users");
 
 // $entity->flush();
 
-print_r($entity->fetchAll()->get(2));
+// $entity->fetchAll()->get();
+// $entity->fetchAll()->get(number);
+// $entity->fetchAll()->where("name", "exampleName")->get();
+// $entity->fetchAll()->where("name", "exampleName")-where("email", "exampleEmail")->get(number);
+// $entity->delete()->confirm();
+// $entity->delete()->where("id", 2)->confirm();

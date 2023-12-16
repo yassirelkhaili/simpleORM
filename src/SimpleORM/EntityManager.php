@@ -135,8 +135,7 @@ class EntityManager
 
     public function get($limit_count = 0)
     {
-        $query = $this->query_generator->generateFinalWhereQuery($limit_count);
-        echo $query;
+        $query = $this->query_generator->generateFinalQuery($limit_count);
         $conditions = $this->query_generator->exportWhereConditions();
         try {
             $stmt = $this->db->prepare($query);
@@ -153,6 +152,7 @@ class EntityManager
                 throw new Exception("Error creating record");
             } 
             echo "Records fetched successfully \n";
+            $this->query_generator->flushChainedQuery();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         } catch (Exception $exception) {
@@ -164,6 +164,35 @@ class EntityManager
 
     //delete methods
 
+    public function delete(): self {
+        $this->query_generator = new QueryGenerator($this->entity_name);
+        $this->query_generator->generateDeleteQuery();
+        return $this;
+    }
+
+    public function confirm () {
+        $query = $this->query_generator->generateFinalQuery();
+        $conditions = $this->query_generator->exportWhereConditions();
+        try {
+            $stmt = $this->db->prepare($query);
+            if (!empty($conditions)) {
+                foreach ($conditions as $key => $value) {
+                    $paramType = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
+                    $stmt->bindValue(":" . $key, $value, $paramType);
+                }
+            }
+            if (!$stmt) {
+                throw new Exception("Error preparing statement");
+            }
+            if (!$stmt->execute()) {
+                throw new Exception("Error creating record");
+            } 
+            echo "Records deleted successfuly \n";
+            $this->query_generator->flushChainedQuery();
+        } catch (Exception $exception) {
+            echo "An Error has occurred: " . $exception->getMessage();
+        }        
+    }
     //empty instance inner data method
     public function flush(): EntityManager
     {

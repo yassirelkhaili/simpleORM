@@ -69,11 +69,16 @@ public function generateFetchAllQuery (): string {
     return $this->chainedQuery;
 }
 
+public function generateDeleteQuery (): string {
+    $this->chainedQuery .= "DELETE FROM {$this->entity_name}";
+    return $this->chainedQuery;
+}
+
 public function stashWhereCondition (string $column, $value): void {
     $this->whereConditions[] = compact('column', 'value');
 }
 
-public function generateFinalWhereQuery (int $limit_count): string {
+public function generateFinalQuery (int $limit_count = 0): string {
     if (!empty($this->whereConditions)) {
         $conditions = [];
         foreach ($this->whereConditions as $condition) {
@@ -92,5 +97,9 @@ public function generateFinalWhereQuery (int $limit_count): string {
 // utility method to fetch Conditions to be used in the prepare statement
 public function exportWhereConditions() {
     return $this->conditions;
+}
+
+public function flushChainedQuery (): void {
+    $this->chainedQuery = "";
 }
 }
