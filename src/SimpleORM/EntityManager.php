@@ -32,6 +32,22 @@ class EntityManager
         return $this->columns[$name] ?? null;
     }
 
+    //manage update method argument count
+
+    public function __call (string $name, array $arguments) {
+       if ($name === "update") {
+        $argument_count = count($arguments);
+        switch ($argument_count) {
+            case 1:
+                return $this->updateMultiple($arguments[0]);
+            case 2;
+                return $this->updateOne($arguments[0], $arguments[1]);
+            default:
+            exit("invalid number of parameters");
+        }
+       }
+    }
+
     //migrate entitity
     public function up(array $data): void
     {
@@ -161,13 +177,20 @@ class EntityManager
     }
 
     //update methods
-    public function update(string $column, $value) {
+    //one
+    private function updateOne(string $column, $value) {
         $this->query_generator = new QueryGenerator($this->entity_name);
         $this->query_generator->generateUpdateQuery($column, $value);
         return $this;
     }
-    //delete methods
+    //multiple
+    private function updateMultiple(array $data) {
+        $this->query_generator = new QueryGenerator($this->entity_name);
+        $this->query_generator->generateUpdateQueryMultiple($data);
+        return $this;
+    }
 
+    //delete methods
     public function delete(): self {
         $this->query_generator = new QueryGenerator($this->entity_name);
         $this->query_generator->generateDeleteQuery();
@@ -176,6 +199,8 @@ class EntityManager
 
     public function confirm () {
         $query = $this->query_generator->generateFinalQuery();
+        echo $query;
+        exit();
         $conditions = $this->query_generator->exportWhereConditions();
         try {
             $stmt = $this->db->prepare($query);

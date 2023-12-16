@@ -37,7 +37,14 @@ $entity = new EntityManager($conn, "Users");
 
 //update one record
 
-// $entity->update("email", "random name")->where("id", 51)->confirm();
+// $entity->update("name", "rand")->where("id", 51)->confirm();
 
 //update multiple records
 
+$entity->update([
+    "name" => "random name",
+    "email" => "random email",
+    "lastname" => "random lastname",
+])->where("id", 51)->confirm();
+
+$entity->update("one", "other");

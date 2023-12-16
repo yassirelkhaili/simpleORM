@@ -79,6 +79,15 @@ public function generateUpdateQuery (string $column, $value): string {
     return $this->chainedQuery;
 }
 
+public function generateUpdateQueryMultiple (array $data): string {
+    $this->chainedQuery .= "UPDATE {$this->entity_name} SET "; 
+    foreach ($data as $key => $value) {
+        $this->chainedQuery .= "$key = ? ";
+    }
+    $this->chainedQuery = rtrim($this->chainedQuery, ' ');
+    return $this->chainedQuery;
+}
+
 public function stashWhereCondition (string $column, $value): void {
     $this->whereConditions[] = compact('column', 'value');
 }
