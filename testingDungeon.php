@@ -9,7 +9,7 @@ $entity = new EntityManager($conn, "Users");
 // individual insert
 // $entity->email = "type";
 // $entity->name = "name421";
-// $entity->lastname = "last_n ame2";
+// $entity->lastname = "last_name2";
 
 // $entity->save();
 
@@ -28,15 +28,4 @@ $entity = new EntityManager($conn, "Users");
 
 // $entity->flush();
 
-// $array = [
-//         ["name"=> "nameqwd","email"=> "email@gmail.com", "lastname" => "lastname"],
-//         ["name"=> "nameqwd2","email"=> "email2@gmail.com", "lastname" => "lastname"],
-//         ["name"=> "nameqwd3","email"=> "email3@gmail.com", "lastname" => "lastname"],
-// ];
-// $index = 0;
-
-// foreach ($array as $item) {
-//     $keys = array_keys($item);
-//     print_r($item[$index]);
-//     $index++;
-// }
+print_r($entity->fetchAll()->where("email", "type")->get());
