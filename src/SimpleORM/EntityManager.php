@@ -199,13 +199,20 @@ class EntityManager
 
     public function confirm () {
         $query = $this->query_generator->generateFinalQuery();
-        echo $query;
-        exit();
-        $conditions = $this->query_generator->exportWhereConditions();
+        $whereConditions = $this->query_generator->exportWhereConditions();
+        $updateConditions = $this->query_generator->exportUpdateConditions();
+        $queryType = substr($query, 0, 6);
         try {
             $stmt = $this->db->prepare($query);
-            if (!empty($conditions)) {
-                foreach ($conditions as $key => $value) {
+            if (!empty($updateConditions)) {
+                foreach ($updateConditions as $key => $value) {
+                    $paramType = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
+                    $stmt->bindValue(":" . $key, $value, $paramType);
+                }
+                $queryType = 1;
+            }
+            if (!empty($whereConditions)) {
+                foreach ($whereConditions as $key => $value) {
                     $paramType = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
                     $stmt->bindValue(":" . $key, $value, $paramType);
                 }
@@ -216,7 +223,7 @@ class EntityManager
             if (!$stmt->execute()) {
                 throw new Exception("Error creating record");
             } 
-            echo "Records updated successfuly \n";
+            echo "Records " . ($queryType ==="UPDATE" ? 'updated' : 'deleted') . " successfully\n";
             $this->query_generator->flushChainedQuery();
         } catch (Exception $exception) {
             echo "An Error has occurred: " . $exception->getMessage();

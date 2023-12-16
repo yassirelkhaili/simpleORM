@@ -5,6 +5,8 @@ namespace queries;
 class QueryGenerator {
     private array $whereConditions = array();
     private array $conditions = array();
+
+    private array $updateConditions = array();
     private string $chainedQuery = "";
     private string $entity_name;
 
@@ -82,9 +84,10 @@ public function generateUpdateQuery (string $column, $value): string {
 public function generateUpdateQueryMultiple (array $data): string {
     $this->chainedQuery .= "UPDATE {$this->entity_name} SET "; 
     foreach ($data as $key => $value) {
-        $this->chainedQuery .= "$key = ? ";
+        $this->chainedQuery .= "$key = :$key, ";
+        $this->updateConditions[$key] = $value;
     }
-    $this->chainedQuery = rtrim($this->chainedQuery, ' ');
+    $this->chainedQuery = rtrim($this->chainedQuery, ', ');
     return $this->chainedQuery;
 }
 
@@ -111,6 +114,10 @@ public function generateFinalQuery (int $limit_count = 0): string {
 // utility method to fetch Conditions to be used in the prepare statement
 public function exportWhereConditions() {
     return $this->conditions;
+}
+
+public function exportUpdateConditions() {
+    return $this->updateConditions;
 }
 
 public function flushChainedQuery (): void {
