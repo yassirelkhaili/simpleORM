@@ -12,11 +12,24 @@ class EntityManager
     private PDO $db;
     private string $entity_name;
     private array $columns = array();
+    private QueryGenerator $query_generator;
 
     public function __construct(PDO $db, string $entity_name)
     {
         $this->db = $db;
         $this->entity_name = $entity_name;
+    }
+
+    //setter and getter for dynamic column calling
+
+    public function __set(string $name, $value): void
+    {
+        $this->columns[$name] = $value;
+    }
+
+    public function __get(string $name)
+    {
+        return $this->columns[$name] ?? null;
     }
 
     //migrate entitity
@@ -55,20 +68,8 @@ class EntityManager
         }
     }
 
-    //setter and getter for dynamic column calling
-
-    public function __set(string $name, $value): void
-    {
-        $this->columns[$name] = $value;
-    }
-
-    public function __get(string $name)
-    {
-        return $this->columns[$name] ?? null;
-    }
-
     //create methods
-    public function save(): EntityManager
+    public function save(): self
     {
         try {
             $query = QueryGenerator::insertRecord($this->columns, $this->entity_name);
@@ -90,7 +91,7 @@ class EntityManager
         $this->flush();
         return $this;
     }
-    public function saveMany(array $columns): EntityManager
+    public function saveMany(array $columns): self
     {
         foreach ($columns as $item) {
             try {
@@ -114,17 +115,57 @@ class EntityManager
             }
         }
 
-        echo "Batch insert operation was successful";
+        echo "Batch insert operation was successful \n";
         return $this;
     }
 
     //fetch methods
 
+    public function fetchAll(): self
+    {
+        $this->query_generator = new QueryGenerator($this->entity_name);
+        $this->query_generator->generateFetchAllQuery();
+        return $this;
+    }
+
+    public function where(string $column, $value): self
+    {
+        $this->query_generator->stashWhereCondition($column, $value);
+        return $this;
+    }
+
+    public function get()
+    {
+        $query = $this->query_generator->generateFinalWhereQuery();
+        $conditions = $this->query_generator->exportWhereConditions();
+        try {
+            $stmt = $this->db->prepare($query);
+            if (!empty($conditions)) {
+                foreach ($conditions as $key => $value) {
+                    $paramType = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
+                    $stmt->bindValue(":" . $key, $value, $paramType);
+                }
+            }
+            if (!$stmt) {
+                throw new Exception("Error preparing statement");
+            }
+            if (!$stmt->execute()) {
+                throw new Exception("Error creating record");
+            }
+        
+            echo "Records have been fetched successfully \n";
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (Exception $exception) {
+            echo "An Error has occurred: " . $exception->getMessage();
+        }        
+    }
+
     //update methods
 
     //delete methods
 
-    //empty flush method
+    //empty entityData flush method
     public function flush(): EntityManager
     {
         $this->columns = [];
