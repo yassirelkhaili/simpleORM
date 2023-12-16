@@ -52,3 +52,16 @@ $entity = new EntityManager($conn, "Users");
 //     "email" => "random email",
 //     "lastname" => "random lastname",
 // ])->where("id", 52)->confirm();
+
+//apply raw sql
+
+
+// aggregate functions
+
+//count
+
+// $entity->count(); //counts all records
+
+//order by
+
+// $entity->fetchAll()->where("name", "nameqwd3")->orderBy(["userID"], "DESC")->get();
