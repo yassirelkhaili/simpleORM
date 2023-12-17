@@ -19,7 +19,7 @@ Why should you use SimpleORM too? because it's blazingly fast. Plus it's open so
 to add new features to it as you wish in order to tailor it to your own needs as a developer.
 ```
 
-## I. Simple command line interface
+## Simple command line interface
 
 ### Introduction
 
