@@ -3,20 +3,20 @@
 ## Introduction
 
 ```plaintext
-Welcome to the SimpleORM Project, an open source PHP ORM designed by me to be used in future projects
- as well as master the behind the scene fundamentals of Object-Relational Mapping, advanced PHP OOP 
- concepts, and design patterns. 📚 This project serves as a practical playground for me to further 
- understand how ORMs work behind the scenes.
+Welcome to the SimpleORM Project, an open source PHP ORM designed by me to be used in future 
+projects as well as master the behind the scene fundamentals of Object-Relational Mapping, 
+advanced PHP OOP concepts, and design patterns. 📚 This project serves as a practical 
+playground for me to further understand how ORMs work behind the scenes.
 ```
 
 ```plaintext
-This readme serves as the official documentation to this project. All information about how to get 
-started using SimpleORM is included in this readme.
+This readme serves as the official documentation to this project. All information about how to 
+get started using SimpleORM is included in this readme.
 ```
 
 ```plaintext
-Why should you use SimpleORM too? because it's blazingly fast. Plus it's open source and easy to add 
-new features to it as you wish in order to tailor it to your own needs as a developer.
+Why should you use SimpleORM too? because it's blazingly fast. Plus it's open source and easy 
+to add new features to it as you wish in order to tailor it to your own needs as a developer.
 ```
 
 ## I. Simple command line interface
