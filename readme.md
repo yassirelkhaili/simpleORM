@@ -3,22 +3,20 @@
 ## Introduction
 
 ```plaintext
-Welcome to the SimpleORM Project, an open source PHP ORM designed by me to be used in 
-future projects as well as master the behind the scene fundamentals of 
-Object-Relational Mapping, advanced PHP OOP concepts, and design patterns. 
-📚 This project serves as a practical playground for me to further understand how ORMs 
-work behind the scenes.
+Welcome to the SimpleORM Project, an open source PHP ORM designed by me to be used in future projects
+ as well as master the behind the scene fundamentals of Object-Relational Mapping, advanced PHP OOP 
+ concepts, and design patterns. 📚 This project serves as a practical playground for me to further 
+ understand how ORMs work behind the scenes.
 ```
 
 ```plaintext
-This readme serves as the official documentation to this project. All information 
-about how to get started using SimpleORM is included in this readme.
+This readme serves as the official documentation to this project. All information about how to get 
+started using SimpleORM is included in this readme.
 ```
 
 ```plaintext
-Why should you use SimpleORM too? because it's blazingly fast. Plus it's 
-open source and easy to add new features to it as you wish in order to tailor 
-it to your own needs as a developer.
+Why should you use SimpleORM too? because it's blazingly fast. Plus it's open source and easy to add 
+new features to it as you wish in order to tailor it to your own needs as a developer.
 ```
 
 ## I. Simple command line interface
@@ -26,8 +24,8 @@ it to your own needs as a developer.
 ### Introduction
 
 ```plaintext
-SimpleORM includes a simple command line interface called well... simple. 
-It supports multiple commands that make using simpleORM seamless.
+SimpleORM includes a simple command line interface called well... simple. It supports multiple 
+commands that make using simpleORM seamless.
 ```
 
 ### Simple commands
@@ -47,8 +45,8 @@ php simple help
 - generate
 
 ```plaintext
-This command generates an entity representing a database table in the Models folder.
-It is often used to efficiently create tables in order to later migrate them to a database later on.
+This command generates an entity representing a database table in the Models folder.It is often 
+used to efficiently create tables in order to later migrate them to a database later on.
 ```
 
 Example use:
@@ -118,9 +116,9 @@ This is SimpleORM gets all the information about how it should create the table 
 
 - Important:
 ```plaintext
-If SimpleORM doesn't find the getPropertyConfig method defined inside 
-the entity class it will proceed to simply generate the table using the properties
- instead using default values for each column.
+If SimpleORM doesn't find the getPropertyConfig method defined inside the entity class it will 
+proceed to simply generate the table using the properties instead using default values for each 
+column.
 ```
 
 - supported column types:
