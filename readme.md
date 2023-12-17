@@ -87,6 +87,54 @@ php rollback:entity Users
 
 ## Entities
 
+```plaintext
+Entities are simply classes that represent tables
+```
+
+### Attributes
+
+```plaintext
+Attributes are first set by default when you generate a class and are optional.
+You can edit/delete them or make your own.
+```
+![Attributes](https://i.imgur.com/0jw7jDF.png)
+
+### getPropertyConfig
+
+```plaintext
+Every Entity has its own getPropertyConfig method. This is SimpleORM gets all the information about how it should create the table in the database.
+```
+
+![getPropertyConfig](https://i.imgur.com/zMP4rBy.png)
+
+- Important:
+```plaintext
+If SimpleORM doesn't find the getPropertyConfig method defined inside the entity class it will proceed to simply generate the table using the properties instead using default values for each column.
+```
+
+- supported column types:
+
+- type
+- length
+- notNull
+- autoIncrement
+- primary
+- unique
+
+Example Use:
+
+```php
+ public static function getPropertyConfig(): array {
+        return [
+            'id' => ['type' => 'int', 'primary' => true, 'autoIncrement' => true, 'notNull' => true],
+            'name' => ['type' => 'varchar', 'length' => 255, 'notNull' => false],
+            'email' => ['type' => 'varchar', 'length' => 255, 'notNull' => true, 'unique' => true],
+            'lastname' => ['type' => 'varchar', 'length' => 23, 'notNull' => false, 'unique' => true],
+            'userID' => ['type' => 'int', 'notNull' => false, 'unique' => true],
+        ];
+    }
+```
+
 ## Establishing a connection
 
 ```plaintext
