@@ -3,15 +3,22 @@
 ## Introduction
 
 ```plaintext
-Welcome to the SimpleORM Project, an open source PHP ORM designed by me to be used in future projects as well as master the behind the scene fundamentals of Object-Relational Mapping, advanced PHP OOP concepts, and design patterns. 📚 This project serves as a practical playground for me to further understand how ORMs work behind the scenes.
+Welcome to the SimpleORM Project, an open source PHP ORM designed by me to be used in 
+future projects as well as master the behind the scene fundamentals of 
+Object-Relational Mapping, advanced PHP OOP concepts, and design patterns. 
+📚 This project serves as a practical playground for me to further understand how ORMs 
+work behind the scenes.
 ```
 
 ```plaintext
-This readme serves as the official documentation to this project. All information about how to get started using SimpleORM is included in this readme.
+This readme serves as the official documentation to this project. All information 
+about how to get started using SimpleORM is included in this readme.
 ```
 
 ```plaintext
-Why should you use SimpleORM too? because it's blazingly fast. Plus it's open source and easy to add new features to it as you wish in order to tailor it to your own needs as a developer.
+Why should you use SimpleORM too? because it's blazingly fast. Plus it's 
+open source and easy to add new features to it as you wish in order to tailor 
+it to your own needs as a developer.
 ```
 
 ## I. Simple command line interface
@@ -19,7 +26,8 @@ Why should you use SimpleORM too? because it's blazingly fast. Plus it's open so
 ### Introduction
 
 ```plaintext
-SimpleORM includes a simple command line interface called well... simple. It supports multiple commands that make using simpleORM seamless.
+SimpleORM includes a simple command line interface called well... simple. 
+It supports multiple commands that make using simpleORM seamless.
 ```
 
 ### Simple commands
@@ -102,14 +110,17 @@ You can edit/delete them or make your own.
 ### getPropertyConfig
 
 ```plaintext
-Every Entity has its own getPropertyConfig method. This is SimpleORM gets all the information about how it should create the table in the database.
+Every Entity has its own getPropertyConfig method. 
+This is SimpleORM gets all the information about how it should create the table in the database.
 ```
 
 ![getPropertyConfig](https://i.imgur.com/zMP4rBy.png)
 
 - Important:
 ```plaintext
-If SimpleORM doesn't find the getPropertyConfig method defined inside the entity class it will proceed to simply generate the table using the properties instead using default values for each column.
+If SimpleORM doesn't find the getPropertyConfig method defined inside 
+the entity class it will proceed to simply generate the table using the properties
+ instead using default values for each column.
 ```
 
 - supported column types:
@@ -139,7 +150,8 @@ Example Use:
 
 ```plaintext
 SimpleORM offers a simple way to establish a connection to your database.
-Simply fill up the fields in the .env.db file in the project root with your database credentials and you are set.
+Simply fill up the fields in the .env.db file in the project root with your database 
+credentials and you are set.
 ```
 
 Examle use:
@@ -158,7 +170,9 @@ DB_PWORD = ""
 ### Definition
 
 ```plaintext
-SimpleORM uses an Entity Mapper which is a class that handles entity mapping in order to get all of its properties and types that way SimpleORM knows how to create the appropriate database table.
+SimpleORM uses an Entity Mapper which is a class that handles entity mapping in 
+order to get all of its properties and types that way SimpleORM knows how to create 
+the appropriate database table.
 Default location: SimpleORM/src/Utils/EntityMapper.php
 ```
 
@@ -167,7 +181,8 @@ Default location: SimpleORM/src/Utils/EntityMapper.php
 ### Definition
 
 ```plaintext
-SimpleORM uses an Entity Generator which is a class that handles entity generation and puts it in the Models folder.
+SimpleORM uses an Entity Generator which is a class that handles entity generation 
+and puts it in the Models folder.
 Default location: SimpleORM/src/Utils/EntityGenerator.php
 ```
 
@@ -176,7 +191,8 @@ Default location: SimpleORM/src/Utils/EntityGenerator.php
 ### Definition
 
 ```plaintext
-SimpleORM uses a Query Generator which is basically the chef that cooks up all of the queries and serves them to the Entity Manager.
+SimpleORM uses a Query Generator which is basically the chef that cooks up all 
+of the queries and serves them to the Entity Manager.
 Default location: SimpleORM/src/SimpleORM/QueryGenerator.php
 ```
 
@@ -185,7 +201,10 @@ Default location: SimpleORM/src/SimpleORM/QueryGenerator.php
 ### Definition
 
 ```plaintext
-SimpleORM uses an Entity Manager which is the class you will be interacting with almost all the time. It's basically the server that takes your order to the kitchen then serves you the food. and by order I mean SimpleORM methods/queries and by your food I mean data/records from the database.
+SimpleORM uses an Entity Manager which is the class you will be interacting with 
+almost all the time. It's basically the server that takes your order to the kitchen 
+then serves you the food. and by order I mean SimpleORM methods/queries and by your 
+food I mean data/records from the database.
 Default location: SimpleORM/src/SimpleORM/EntityManager.php
 ```
 
@@ -203,7 +222,8 @@ use EntityManager\EntityManager;
 
 ```plaintext
 Required parameters:
-- $conn object from SimpleORM/src/Database/connections/conn.php This is autimatically included when you require the Entity Manager
+- $conn object from SimpleORM/src/Database/connections/conn.php This is autimatically 
+included when you require the Entity Manager
 - entity/database table name as string
 ```
 
@@ -320,7 +340,8 @@ Required parameters:
 Example use:
 
 ```php
-$entity->update("name", "rand")->where("id", 51)->confirm(); // updates name to rand for record with id = 51
+$entity->update("name", "rand")->where("id", 51)->confirm(); 
+// updates name to rand for record with id = 51
 ```
 
 - Multiple records
@@ -337,7 +358,8 @@ $entity->update([
     "name" => "random name",
     "email" => "random email",
     "lastname" => "random lastname",
-])->where("id", 52)->confirm();  // updates name, email and lastname for record with id = 51
+])->where("id", 52)->confirm();  
+// updates name, email and lastname for record with id = 51
 ```
 
 ### Aggregate Methods
