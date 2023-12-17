@@ -11,6 +11,7 @@ $entity = new EntityManager($conn, "Users");
 // $entity->email = "type";
 // $entity->name = "name421";
 // $entity->lastname = "last_name2";
+// $entity->userID = 231;
 
 // $entity->save();
 
@@ -22,12 +23,19 @@ $entity = new EntityManager($conn, "Users");
 // ]);
 
 // $entity->saveMany([
-//     ["name"=> "nam eqwd","email"=> "email@gmail.com", "lastname" => "lastname"],
-//     ["name"=> "nameqwd2","email"=> "email2@gmail.com", "lastname" => "lastname"],
-//     ["name"=> "nameqwd3","email"=> "email3@gmail.com", "lastname" => "lastname"],
+//     ["name" => "name1", "email" => "email1@gmail.com", "lastname" => "lastname1", "userID" => 233],
+//     ["name" => "name2", "email" => "email2@gmail.com", "lastname" => "lastname2", "userID" => 213],
+//     ["name" => "name3", "email" => "email3@gmail.com", "lastname" => "lastname3", "userID" => 21],
+//     ["name" => "name4", "email" => "email4@gmail.com", "lastname" => "lastname4", "userID" => 124],
+//     ["name" => "name5", "email" => "email5@gmail.com", "lastname" => "lastname5", "userID" => 532],
+//     ["name" => "name6", "email" => "email6@gmail.com", "lastname" => "lastname6", "userID" => 876],
+//     ["name" => "name7", "email" => "email7@gmail.com", "lastname" => "lastname7", "userID" => 345],
+//     ["name" => "name8", "email" => "email8@gmail.com", "lastname" => "lastname8", "userID" => 789],
 // ]);
 
 // $entity->flush();
+
+// $entity->list();
 
 //fetch records
 
@@ -51,7 +59,7 @@ $entity = new EntityManager($conn, "Users");
 //     "name" => "random name",
 //     "email" => "random email",
 //     "lastname" => "random lastname",
-// ])->where("id", 52)->confirm();
+// ])->where("id", 43)->confirm();
 
 //apply raw sql
 

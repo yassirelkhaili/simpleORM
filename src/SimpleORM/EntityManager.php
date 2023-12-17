@@ -209,7 +209,6 @@ class EntityManager
                     $paramType = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
                     $stmt->bindValue(":" . $key, $value, $paramType);
                 }
-                $queryType = 1;
             }
             if (!empty($whereConditions)) {
                 foreach ($whereConditions as $key => $value) {
@@ -223,7 +222,7 @@ class EntityManager
             if (!$stmt->execute()) {
                 throw new Exception("Error creating record");
             } 
-            echo "Records " . ($queryType ==="UPDATE" ? 'updated' : 'deleted') . " successfully\n";
+            echo "Records " . ($queryType === "UPDATE" ? 'updated' : 'deleted') . " successfully\n";
             $this->query_generator->flushChainedQuery();
         } catch (Exception $exception) {
             echo "An Error has occurred: " . $exception->getMessage();
