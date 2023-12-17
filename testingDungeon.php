@@ -55,6 +55,7 @@ $entity = new EntityManager($conn, "Users");
 
 //apply raw sql
 
+//coming soon future feature
 
 // aggregate functions
 
@@ -64,4 +65,4 @@ $entity = new EntityManager($conn, "Users");
 
 //order by
 
-// $entity->fetchAll()->where("name", "nameqwd3")->orderBy(["userID"], "DESC")->get();
+// $entity->fetchAll()->where("name", "nameqwd3")->orderBy(["userID"], "DESC")->get(); ASC default
