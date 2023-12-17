@@ -16,7 +16,6 @@ Why should you use SimpleORM too? because it's blazingly fast. Plus it's open so
 
 ## I. Simple command line interface
 
-
 ### Introduction
 
 ```plaintext
@@ -94,6 +93,7 @@ php rollback:entity Users
 SimpleORM offers a simple way to establish a connection to your database.
 Simply fill up the fields in the .env.db file in the project root with your database credentials and you are set.
 ```
+
 Examle use:
 
 ```bash
@@ -154,7 +154,7 @@ use EntityManager\EntityManager;
 ### instantiate a new Entity Manager Object
 
 ```plaintext
-Required parameters: 
+Required parameters:
 - $conn object from SimpleORM/src/Database/connections/conn.php This is autimatically included when you require the Entity Manager
 - entity/database table name as string
 ```
@@ -162,6 +162,7 @@ Required parameters:
 ```php
 $entity = new EntityManager($conn, "Users");
 ```
+
 ### Insert Methods
 
 - Individual insert
@@ -179,7 +180,7 @@ $entity->save();
 - Batch insert
 
 ```plaintext
-Required parameters: 
+Required parameters:
 - Array of records as associative arrays with column names keys pointing to values
 ```
 
@@ -203,13 +204,14 @@ Example use:
 $entity->fetchAll()->get(); // fetches all records from the database table
 ```
 
-- paginate 
+- paginate
+
 ```plaintext
 Limits the number of records to be fetched
 ```
 
 ```plaintext
-Required parameters: 
+Required parameters:
 - value: integer
 ```
 
@@ -223,7 +225,7 @@ $entity->fetchAll()->get(int number);
 
 ```plaintext
 Specifies which records should be fetched
-Required parameters: 
+Required parameters:
 - column name: string
 - value: any
 ```
@@ -235,5 +237,95 @@ $entity->fetchAll()->where("name", "exampleName")->get();
 $entity->fetchAll()->where("name", "exampleName")-where("email", "exampleEmail")->get(number);
 ```
 
+### Delete Methods
 
+- Delete records
 
+Example use:
+
+```php
+$entity->delete()->confirm(); // deletes all records from the database table
+```
+
+Note:
+
+```plaintext
+This method can be chained with where to delete specific table records
+```
+
+Example use:
+
+```php
+ $entity->delete()->where("id", 51)->confirm(); //deletes record which id = 51
+```
+
+### Update Methods
+
+- Individual records
+
+```plaintext
+Required parameters:
+- column name: string
+- value: any
+```
+
+Example use:
+
+```php
+$entity->update("name", "rand")->where("id", 51)->confirm(); // updates name to rand for record with id = 51
+```
+
+- Multiple records
+
+```plaintext
+Required parameters:
+- Associative array with table columns as keys
+```
+
+Example use:
+
+```php
+$entity->update([
+    "name" => "random name",
+    "email" => "random email",
+    "lastname" => "random lastname",
+])->where("id", 52)->confirm();  // updates name, email and lastname for record with id = 51
+```
+
+### Aggregate Methods
+
+- Count
+
+```plaintext
+Returns table record count
+```
+
+Example use:
+
+```php
+$entity->count(); //counts all records
+```
+
+- Order By
+
+```plaintext
+Displays table records in order
+```
+
+```plaintext
+Required parameters:
+- Array of columns to be ordered by
+- Order by method: ASC or DESC (optional)
+```
+
+Note:
+
+```plaintext
+The second parameter is optional and is set to ASC by default
+```
+
+Example use:
+
+```php
+$entity->fetchAll()->where("id", 51)->orderBy(["userID"], "DESC")->get();
+```
