@@ -41,6 +41,7 @@ class Users extends Entity {
             'name' => ['type' => 'varchar', 'length' => 255, 'notNull' => true],
             'email' => ['type' => 'varchar', 'length' => 255, 'notNull' => true, 'unique' => true],
             'lastname' => ['type' => 'varchar', 'length' => 23, 'notNull' => false, 'unique' => true],
+            'userID' => ['type' => 'int', 'notNull' => false, 'unique' => true],
         ];
     }
 }

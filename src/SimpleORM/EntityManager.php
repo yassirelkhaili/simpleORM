@@ -32,6 +32,22 @@ class EntityManager
         return $this->columns[$name] ?? null;
     }
 
+    //manage update method argument count
+
+    public function __call (string $name, array $arguments) {
+       if ($name === "update") {
+        $argument_count = count($arguments);
+        switch ($argument_count) {
+            case 1:
+                return $this->updateMultiple($arguments[0]);
+            case 2;
+                return $this->updateOne($arguments[0], $arguments[1]);
+            default:
+            exit("invalid number of parameters");
+        }
+       }
+    }
+
     //migrate entitity
     public function up(array $data): void
     {
@@ -120,7 +136,6 @@ class EntityManager
     }
 
     //fetch methods
-
     public function fetchAll(): self
     {
         $this->query_generator = new QueryGenerator($this->entity_name);
@@ -134,9 +149,9 @@ class EntityManager
         return $this;
     }
 
-    public function get()
+    public function get($limit_count = 0)
     {
-        $query = $this->query_generator->generateFinalWhereQuery();
+        $query = $this->query_generator->generateFinalQuery($limit_count);
         $conditions = $this->query_generator->exportWhereConditions();
         try {
             $stmt = $this->db->prepare($query);
@@ -151,9 +166,9 @@ class EntityManager
             }
             if (!$stmt->execute()) {
                 throw new Exception("Error creating record");
-            }
-        
-            echo "Records have been fetched successfully \n";
+            } 
+            echo "Records fetched successfully \n";
+            $this->query_generator->flushChainedQuery();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         } catch (Exception $exception) {
@@ -162,16 +177,92 @@ class EntityManager
     }
 
     //update methods
+    //one
+    private function updateOne(string $column, $value) {
+        $this->query_generator = new QueryGenerator($this->entity_name);
+        $this->query_generator->generateUpdateQuery($column, $value);
+        return $this;
+    }
+    //multiple
+    private function updateMultiple(array $data) {
+        $this->query_generator = new QueryGenerator($this->entity_name);
+        $this->query_generator->generateUpdateQueryMultiple($data);
+        return $this;
+    }
 
     //delete methods
+    public function delete(): self {
+        $this->query_generator = new QueryGenerator($this->entity_name);
+        $this->query_generator->generateDeleteQuery();
+        return $this;
+    }
 
-    //empty entityData flush method
+    public function confirm () {
+        $query = $this->query_generator->generateFinalQuery();
+        $whereConditions = $this->query_generator->exportWhereConditions();
+        $updateConditions = $this->query_generator->exportUpdateConditions();
+        $queryType = substr($query, 0, 6);
+        try {
+            $stmt = $this->db->prepare($query);
+            if (!empty($updateConditions)) {
+                foreach ($updateConditions as $key => $value) {
+                    $paramType = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
+                    $stmt->bindValue(":" . $key, $value, $paramType);
+                }
+                $queryType = 1;
+            }
+            if (!empty($whereConditions)) {
+                foreach ($whereConditions as $key => $value) {
+                    $paramType = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
+                    $stmt->bindValue(":" . $key, $value, $paramType);
+                }
+            }
+            if (!$stmt) {
+                throw new Exception("Error preparing statement");
+            }
+            if (!$stmt->execute()) {
+                throw new Exception("Error creating record");
+            } 
+            echo "Records " . ($queryType ==="UPDATE" ? 'updated' : 'deleted') . " successfully\n";
+            $this->query_generator->flushChainedQuery();
+        } catch (Exception $exception) {
+            echo "An Error has occurred: " . $exception->getMessage();
+        }        
+    }
+
+    //count all records
+
+    public function count() {
+        $this->query_generator = new QueryGenerator($this->entity_name);
+        $query = $this->query_generator->generateCountQuery();
+        try {
+            $stmt = $this->db->prepare($query);
+            if (!$stmt) {
+                throw new Exception("Error preparing statement");
+            }
+            if (!$stmt->execute()) {
+                throw new Exception("Error creating record");
+            }
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result["count"];
+        } catch (Exception $exception) {
+            echo "An Error has occured: " . $exception->getMessage();
+        }
+    }
+
+    public function orderBy(array $fields, $direction = "ASC"): self {
+        $this->query_generator->setOrderByConditions($fields, $direction);
+        return $this;
+    }
+
+    //empty instance inner data method
     public function flush(): EntityManager
     {
         $this->columns = [];
         return $this;
     }
     //for debugging perposes
+    //list all instance inner data
     public function list(): void
     {
         foreach ($this->columns as $column) {

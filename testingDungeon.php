@@ -7,6 +7,7 @@ use EntityManager\EntityManager;
 $entity = new EntityManager($conn, "Users");
 
 // individual insert
+
 // $entity->email = "type";
 // $entity->name = "name421";
 // $entity->lastname = "last_name2";
@@ -28,4 +29,40 @@ $entity = new EntityManager($conn, "Users");
 
 // $entity->flush();
 
-print_r($entity->fetchAll()->where("email", "type")->get());
+//fetch records
+
+// $entity->fetchAll()->get();
+// $entity->fetchAll()->get(number);
+// $entity->fetchAll()->where("name", "exampleName")->get();
+// $entity->fetchAll()->where("name", "exampleName")-where("email", "exampleEmail")->get(number);
+
+//delete records
+
+// $entity->delete()->confirm();
+// $entity->delete()->where("id", 51)->confirm();
+
+//update one record
+
+// $entity->update("name", "rand")->where("id", 51)->confirm();
+
+//update multiple records
+
+// $entity->update([
+//     "name" => "random name",
+//     "email" => "random email",
+//     "lastname" => "random lastname",
+// ])->where("id", 52)->confirm();
+
+//apply raw sql
+
+//coming soon future feature
+
+// aggregate functions
+
+//count
+
+// $entity->count(); //counts all records
+
+//order by
+
+// $entity->fetchAll()->where("name", "nameqwd3")->orderBy(["userID"], "DESC")->get(); ASC default
