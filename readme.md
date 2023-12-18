@@ -226,7 +226,7 @@ included when you require the Entity Manager
 ```
 
 ```php
-$entity = new EntityManager($conn, "Users");
+$entity = new EntityManager("Users");
 ```
 
 ### Insert Methods
