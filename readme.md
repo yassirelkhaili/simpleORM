@@ -82,7 +82,7 @@ php destroy:entity Users
 - rollback
 
 ```plaintext
-This command reverses a migration basically dropping which ever table name you give it.
+This command reverses a migration simply dropping which ever table name you give it.
 ```
 
 Example use:
@@ -189,7 +189,7 @@ Default location: SimpleORM/src/Utils/EntityGenerator.php
 ### Definition
 
 ```plaintext
-SimpleORM uses a Query Generator which is basically the chef that cooks up all 
+SimpleORM uses a Query Generator which is simply the chef that cooks up all 
 of the queries and serves them to the Entity Manager.
 Default location: SimpleORM/src/SimpleORM/QueryGenerator.php
 ```
@@ -200,7 +200,7 @@ Default location: SimpleORM/src/SimpleORM/QueryGenerator.php
 
 ```plaintext
 SimpleORM uses an Entity Manager which is the class you will be interacting with 
-almost all the time. It's basically the server that takes your order to the kitchen 
+almost all the time. It's simply the server that takes your order to the kitchen 
 then serves you the food. and by order I mean SimpleORM methods/queries and by your 
 food I mean data/records from the database.
 Default location: SimpleORM/src/SimpleORM/EntityManager.php

@@ -14,10 +14,10 @@ class EntityManager
     private array $columns = array();
     private QueryGenerator $query_generator;
 
-    public function __construct(PDO $db, string $entity_name)
+    public function __construct(string $entity_name)
     {
-        $this->db = $db;
         $this->entity_name = $entity_name;
+        $this->db = $GLOBALS['conn'];
     }
 
     //setter and getter for dynamic column calling
