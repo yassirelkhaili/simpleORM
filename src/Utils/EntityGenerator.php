@@ -88,7 +88,7 @@ class generateEntity Implements generate {
             require_once $target_file_path;
             if (class_exists($class_name)) {
                 $mapper = new EntityMapper(new $class_name);
-                $manager = new EntityManager($conn, $class_name);
+                $manager = new EntityManager($class_name);
                 $manager->up($mapper->map());
             } else {
             exit("Could't find target class");

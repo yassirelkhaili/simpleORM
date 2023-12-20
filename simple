@@ -66,7 +66,7 @@ switch ($command_interface) {
     case "rollback":
         switch ($command_argument) {
             case "entity":
-                $manager = new EntityManager($conn, $class_name);
+                $manager = new EntityManager($class_name);
                 $manager->down();
                 break;
             default:
