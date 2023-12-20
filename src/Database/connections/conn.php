@@ -18,3 +18,5 @@ try {
 } catch (PDOException $e) {
     die("Connection failed: " . $e->getMessage());
 }
+//declare $conn as a global variable
+global $conn;

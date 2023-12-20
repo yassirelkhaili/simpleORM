@@ -4,16 +4,16 @@ require "./src/SimpleORM/EntityManager.php";
 
 use EntityManager\EntityManager;
 
-$entity = new EntityManager($conn, "Users");
+$entity = new EntityManager("Users");
 
 // individual insert
 
-// $entity->email = "type";
-// $entity->name = "name421";
-// $entity->lastname = "last_name2";
-// $entity->userID = 231;
+$entity->email = "type";
+$entity->name = "name421";
+$entity->lastname = "last_name2";
+$entity->userID = 231;
 
-// $entity->save();
+$entity->save();
 
 //batch insert
 
